@@ -2,11 +2,6 @@
 #ifndef MAIN_AUX_H
 #define MAIN_AUX_H
 
-#define True (1)
-#define False (0)
-
-typedef char bool;
-
 /**
  * Get user inputs for game initialization - number of fixed cells.
  * set the value of `fixed_cells` to be the number of fixed cells.

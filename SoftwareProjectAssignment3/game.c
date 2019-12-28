@@ -5,38 +5,45 @@
 
 int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
 	board->board_size = block_width * block_height;
-	board->board = (int*) calloc(board->board_size * board->board_size, sizeof(int));
+
+	board->board = (SudokuCell*) calloc(board->board_size * board->board_size, sizeof(SudokuCell));
 	if (!board->board) {
 		return -1;
 	}
+
 	board->block_width = block_width;
 	board->block_height = block_height;
-	board->hints = hints;
 		
 	return 0;
 }
 
 void free_game_board(SudokuBoard* board) {
-	(void) board;
+	free(board->board);
 }
 
 int get_cell(const SudokuBoard* board, size_t row, size_t column, int* value) {
 	if (row < board->board_size && column < board->board_size) {
-		*value = board->board[row * board->board_size + column]; 
+		*value = board->board[row * board->board_size + column].value; 
 		return 0;
 	}
 	return -1;
 }
 
 int set_cell(SudokuBoard* board, size_t row, size_t column, int value) {
+	SudokuCell cell;
+
 	if (value >= 1 && row < board->board_size && column < board->board_size && (size_t) value <= board->board_size) {
-		board->board[row * board->board_size + column] = value;
+		cell = board->board[row * board->board_size + column];
+
+		if (!cell.is_fixed) {
+			cell.value = value; 
+		}
 		return 0;
 	}
 	return -1;
 }
 
-void initialize_game(SudokuBoard* board, size_t board_size, size_t block_width, size_t block_height, int hints) {
+static void initialize_game(SudokuBoard* board, int hints) {
 
 }
 
