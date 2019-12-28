@@ -15,7 +15,7 @@ typedef struct {
 	int hints; /* The number of fixed cells ("hints") */
 } SudokuBoard;
 
-int create_game_board(SudokuBoard* board, const int n, const int m);
+int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints);
 
 void free_game_board(SudokuBoard* board);
 

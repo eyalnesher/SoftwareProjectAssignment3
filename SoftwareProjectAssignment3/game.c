@@ -3,15 +3,16 @@
 
 #include <stdlib.h>
 
-int create_game_board(SudokuBoard* board, const int n, const int m, int hints) {
-	board->board_size = n * m;
+int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
+	board->board_size = block_width * block_height;
 	board->board = (int*) calloc(board->board_size * board->board_size, sizeof(int));
 	if (!board->board) {
 		return -1;
 	}
-	board->block_width = n;
-	board->block_height = m;
-	board->hints = hints;		
+	board->block_width = block_width;
+	board->block_height = block_height;
+	board->hints = hints;
+		
 	return 0;
 }
 
