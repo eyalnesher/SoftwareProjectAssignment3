@@ -40,9 +40,14 @@ int create_game_board(SudokuBoard* board, const size_t block_width, const size_t
 void free_game_board(SudokuBoard* board);
 
 /**
- * Retrieve the cell at the given position in the board.
+ * Retrieve the cell value at the given position in the board.
  */
-int get_cell(const SudokuBoard* board, size_t row, size_t column, int* value);
+int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* value);
+
+/**
+ * Retrieve wether the cell at the given position is a fixed cell
+ */
+int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_fixed);
 
 /**
  * Set the value of the cell at the given position if its not a fixed cell
