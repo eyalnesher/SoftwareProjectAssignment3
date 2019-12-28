@@ -4,14 +4,14 @@
 #include <stdlib.h>
 
 int create_game_board(SudokuBoard* board, const int n, const int m, int hints) {
+	board->board_size = n * m;
+	board->board = (int*) calloc(board->board_size * board->board_size, sizeof(int));
 	if (!board->board) {
 		return -1;
 	}
-	board->board_size = n * m;
 	board->block_width = n;
 	board->block_height = m;
-	board->board = (int*) malloc(n * m * n * m);
-	board->hints = hints;
+	board->hints = hints;		
 	return 0;
 }
 
