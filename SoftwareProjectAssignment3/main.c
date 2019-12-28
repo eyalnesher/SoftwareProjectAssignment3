@@ -10,16 +10,14 @@ int main(void) {
 	if (user_input_setup(&fixed_cells) < 0) {
 		return 0;
 	}
-
 	
-	
-	/*while (1) {
-		ret = do_turn(user_turn());
+	while (True) {
+		/*ret = do_turn(user_turn());
 		
 		if (ret) {
 			return ret;
-		}
-	}*/
+		}*/
+	}
 
 	return 0;
 }
