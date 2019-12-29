@@ -21,14 +21,25 @@ void free_game_board(SudokuBoard* board) {
 	free(board->board);
 }
 
+/**
+ * Return if the place [row, column] exists in the board.
+ */
 static bool does_cell_exist(const SudokuBoard* board, size_t row, size_t column) {
-	return row < board->board_size && column < board->board_size;
+	return (bool) row < board->board_size && column < board->board_size;
 }
 
+/**
+ * Return the absulute index (one dimentional) of the cell in place [row, column]
+ */
 static size_t cell_index(const SudokuBoard* board, size_t row, size_t column) {
 	return row * board->board_size + column;
 }
 
+/**
+ * Retrieve a pointer to the cell at the place [row, column],
+ * and pass it to the caller through `cell`.
+ * Return 0 if the cell exists, -1 otherwise.
+ */
 static int get_cell(const SudokuBoard* board, size_t row, size_t column, SudokuCell** cell) {
 	if (does_cell_exist(board, row, column)) {
 		*cell = board->board + cell_index(board, row, column); 

@@ -29,7 +29,7 @@ typedef struct {
 
 /**
  * Create a `SudokuBoard` object of block sizes `block_width` x `block_height`
- * and with `hints` fixed cells, and returns it through `board`.
+ * and with `hints` fixed cells, and pass it to the caller through `board`.
  * Return 0 on success, -1 otherwise (can fail due to memory allocation failure).
  */
 int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints);
@@ -40,12 +40,16 @@ int create_game_board(SudokuBoard* board, const size_t block_width, const size_t
 void free_game_board(SudokuBoard* board);
 
 /**
- * Retrieve the cell value at the given position in the board.
+ * Retrieve the cell value at the given position in the board,
+ * and pass it to the caller through `value`.
+ * Return 0 if the cell exists, -1 otherwise.
  */
 int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* value);
 
 /**
- * Retrieve wether the cell at the given position is a fixed cell
+ * Retrieve whether the cell at the given position is a fixed cell,
+ * and pass it to the caller through `is_fixed`.
+ * Return 0 if the cell exists, -1 otherwise.
  */
 int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_fixed);
 
