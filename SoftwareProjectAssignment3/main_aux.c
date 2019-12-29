@@ -4,6 +4,28 @@
 
 #define MAX_SIZE (80)
 
+/**
+ * Pass to the caller the string representation of the cell at place [row, column] in the board
+ * (" <value>" for non-fixed cells, ".<value>" for fixed cells), through `cell_repr`.
+ * Assume that the given cell exists. 
+ */
+static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char* cell_repr) {
+	int cell_val;
+	bool is_fixed;
+
+	get_cell_value(board, row, column, &cell_val);
+	is_cell_fixed(board, row, column, &is_fixed);
+
+	if (is_fixed) {
+		cell_repr[0] = '.';
+	}
+	else {
+		cell_repr[0] = ' ';
+	}
+
+	sprintf(cell_repr + 1, "%d", cell_val);
+}
+
 int user_input_setup(int* fixed_cells) {
 	int ret;
 
@@ -22,6 +44,9 @@ int user_input_setup(int* fixed_cells) {
 	return 0;
 }
 
+/**
+ * Prints the row seperator string of the string representation of the board.
+ */
 static void print_row_seperator() {
 	printf("----------------------------------\n");
 }
@@ -50,25 +75,4 @@ void print_board(SudokuBoard* board) {
 		}
 		print_row_seperator();
 	}
-}
-
-static int cell_string_repr(SudokuBoard* board, size_t row, size_t column, char* cell_repr) {
-	int cell_val;
-	bool is_fixed;
-
-	if (get_cell_value(board, row, column, &cell_val)) {
-		return -1;
-	}
-	if (is_cell_fixed(board, row, column, &is_fixed)) {
-		return -1;
-	}
-
-	if (is_fixed) {
-		cell_repr[0] = '.';
-	} else {
-		cell_repr[0] = ' ';
-	}
-
-	sprintf(cell_repr + 1, "%d", cell_val);
-	return 0;
 }
