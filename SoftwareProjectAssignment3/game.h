@@ -52,7 +52,7 @@ int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_
 /**
  * Set the value of the cell at the given position if its not a fixed cell
  */
-int set_cell(SudokuBoard* board, size_t row, size_t column, int value);
+int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value);
 
 void do_turn(void);
 

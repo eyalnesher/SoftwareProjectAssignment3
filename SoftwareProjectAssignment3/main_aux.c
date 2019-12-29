@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 #define MAX_SIZE (80)
-#define SEPERATOR_ROW ("----------------------------------\n")
 
 int user_input_setup(int* fixed_cells) {
 	int ret;
@@ -23,10 +22,15 @@ int user_input_setup(int* fixed_cells) {
 	return 0;
 }
 
+static void print_row_seperator() {
+	printf("----------------------------------\n");
+}
+
 void print_board(SudokuBoard* board) {
 	size_t block_row, block_col, row, col;
+	char repr[sizeof(int) + 1];
 
-	printf(SEPERATOR_ROW);
+	print_row_seperator();
 	for (block_row = 0; block_row < board->block_width; block_row++) {
 		/* prints a full batch of row blocks */
 		for (row = 0; row < board->block_height; row++) {
@@ -36,17 +40,19 @@ void print_board(SudokuBoard* board) {
 				/* prints a row in the block (block_row, block_col) */
 				for (col = 0; col < board->block_width; col++) {
 					/* prints cell (row, col) of block (block_row, block_col) */
-					printf("%s", cell_string_repr(board, block_row * board->block_height + row, block_col * board->block_width + col));
+
+					cell_string_repr(board, block_row * board->block_height + row, block_col * board->block_width + col, &repr);
+					printf("%s", repr);
 				}
-				printf("|");
+				printf(" |");
 			}
 			printf("\n");
 		}
-		printf(SEPERATOR_ROW);
+		print_row_seperator();
 	}
 }
 
-static int cell_string_repr(SudokuBoard* board, size_t row, size_t column, char** cell_repr) {
+static int cell_string_repr(SudokuBoard* board, size_t row, size_t column, char* cell_repr) {
 	int cell_val;
 	bool is_fixed;
 
@@ -58,11 +64,11 @@ static int cell_string_repr(SudokuBoard* board, size_t row, size_t column, char*
 	}
 
 	if (is_fixed) {
-		*cell_repr = ".0";
-	}
-	else {
-		*cell_repr = " 0";
+		cell_repr[0] = '.';
+	} else {
+		cell_repr[0] = ' ';
 	}
 
+	sprintf(cell_repr + 1, "%d", cell_val);
 	return 0;
 }
