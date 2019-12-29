@@ -16,13 +16,13 @@ int main(void) {
 
 	print_board(&game_board);
 	
-	/*while (True) {
-		ret = do_turn(user_turn());
+	while (True) {
+		/*ret = do_turn(user_turn());
 		
 		if (ret) {
 			return ret;
-		}
-	}*/
+		}*/
+	}
 
 	return 0;
 }
