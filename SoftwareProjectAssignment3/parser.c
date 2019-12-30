@@ -22,8 +22,9 @@ static int parse_deliminator(char* str, char* delimiter, char** parsed_string, s
 	return parsed_string;
 }
 
+/* TODO */
 int parse_and_run(char* str_input, int str_len) {
 	char* parsed_string[MAX_ARG_CNT];
 	int arg_count = parse_deliminator(str_input, " ", parsed_string, MAX_ARG_CNT);
-	return -1;
+	return 0;
 }
