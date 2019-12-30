@@ -67,7 +67,7 @@ void print_board(SudokuBoard* board) {
 					/* prints cell (row, col) of block (block_row, block_col) */
 
 					cell_string_repr(board, block_row * board->block_height + row, block_col * board->block_width + col, &repr);
-					printf("%s", repr);
+					printf(" %s", repr);
 				}
 				printf(" |");
 			}
