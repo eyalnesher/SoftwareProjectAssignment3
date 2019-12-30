@@ -19,7 +19,7 @@ static int parse_deliminator(char* str, char* delimiter, char** parsed_string, s
 		token = strtok(NULL, delimiter);
 	}
 
-	return parsed_string;
+	return count;
 }
 
 /* TODO */
