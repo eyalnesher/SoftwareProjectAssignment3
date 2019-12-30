@@ -1,30 +1,29 @@
 
 #include "parser.h"
 
-#define NULL (0) /* WTF? why isnt it already defined? */
+#include <stdlib.h>
 
-static char** parse_delim(char* str, char* delim, int* arg_count) {
-	char* parsed_string[MAX_ARG_CNT];
+/**
+ * Split a string into an array of `max_args` strings, using `delimiter` as a delimiter,
+ * and pass it to the caller through `parsed_string`.
+ * Return the number of the generated strings.
+ */
+static int parse_deliminator(char* str, char* delimiter, char** parsed_string, size_t max_args) {
 	char* token;
-	int cnt = 0;
+	int count = 0;
 
-	token = strtok(str, delim);
+	token = strtok(str, delimiter);
 
-	while (token && cnt < MAX_ARG_CNT) {
-		parsed_string[cnt++] = token;
-		token = strtok(NULL, delim);
+	while (token && count < max_args) {
+		parsed_string[count++] = token;
+		token = strtok(NULL, delimiter);
 	}
-	*arg_count = cnt;
 
 	return parsed_string;
 }
 
-int parse_and_run(char* str_inp, int str_len) {
-	char** parsed_string;
-	int arg_count;
-
-	parsed_string = parse_delim(str_inp, " ", &arg_count);
-
-
-	return 0;
+int parse_and_run(char* str_input, int str_len) {
+	char* parsed_string[MAX_ARG_CNT];
+	int arg_count = parse_deliminator(str_input, " ", parsed_string, MAX_ARG_CNT);
+	return -1;
 }
