@@ -47,7 +47,7 @@ int user_input_setup(int* fixed_cells) {
 /**
  * Prints the row seperator string of the string representation of the board.
  */
-static void print_row_seperator(void) {
+static void print_row_seperator() {
 	printf("----------------------------------\n");
 }
 
