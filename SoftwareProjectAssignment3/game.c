@@ -99,10 +99,17 @@ static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column, int val
 	return 0;
 }
 
+/* TODO */
 static void initialize_game(SudokuBoard* board, int hints) {
 
 }
 
+/* TODO */
+bool is_leagl(SudokuBoard* board, size_t row, size_t column, int value) {
+	return True;
+}
+
+/* TODO */
 void do_turn(void) {
 
 }
