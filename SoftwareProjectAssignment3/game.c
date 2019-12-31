@@ -87,7 +87,7 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value) {
 }
 
 /**
- * Set the cell at place [row, column] in `board` to be fixed.
+ * Set the value of the cell at place [row, column] in `board`, and set it to be fixed.
  */
 static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column, int value){
 	SudokuCell* cell;
