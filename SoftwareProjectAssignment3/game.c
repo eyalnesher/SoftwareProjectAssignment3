@@ -51,7 +51,7 @@ static int get_cell(const SudokuBoard* board, size_t row, size_t column, SudokuC
 int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* value) {
 	SudokuCell* cell;
 	
-	if (get_cell(board, row, column, &cell)) {
+	if (get_cell(board, row, column, &cell) < 0) {
 		return -1;
 	}
 
@@ -107,9 +107,51 @@ static void initialize_game(SudokuBoard* board, int hints) {
 
 }
 
+/**
+ * Find the block of the cell at place [row, column] in the board, and pass its top-left 
+ * corner coordinates to the caller through `start_block_row`, `start_block_column`.
+ * Assumes the cell exists in the board.
+ */
+static void find_block(const SudokuBoard* board, size_t row, size_t column,
+	size_t* start_block_row, size_t* start_block_column) {
+	*start_block_row = (row / board->block_height) * board->block_height;
+	*start_block_column = (column / board->block_width) * board->block_width;
+}
+
 /* TODO */
-bool is_leagl(SudokuBoard* board, size_t row, size_t column, int value) {
-	return True;
+bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, int value) {
+	size_t cell_row, cell_column;
+	int cell_value;
+	size_t start_block_row, start_block_column;
+
+	/* Search in row */
+	for (cell_column = 0; cell_column < board->board_size; cell_column++) {
+		get_cell_value(board, row, cell_column, &cell_value); /* Iterating over existing cells only */
+		if (cell_value == value) {
+			return False; /* An identical value have been found in the same row */
+		}
+	}
+
+	/* Search in column */
+	for (cell_row = 0; cell_row < board->board_size; cell_row++) {
+		get_cell_value(board, cell_row, column, &cell_value); /* Iterating over existing cells only */
+		if (cell_value == value) {
+			return False; /* An identical value have been found in the same column */
+		}
+	}
+
+	/* Search in block */
+	find_block(board, row, column, &start_block_row, &start_block_column);
+	for (cell_row = start_block_row; cell_row < start_block_row + board->block_height; cell_row++) {
+		for (cell_column = start_block_column; cell_column < start_block_column + board->block_width; cell_column++) {
+			get_cell_value(board, cell_row, cell_column, &cell_value); /* Iterating over existing cells only */
+			if (cell_value == value) {
+				return False; /* An identical value have been found in the same block */
+			}
+		}
+	}
+
+	return True; /* No identical value have been found in the same row, column or block */
 }
 
 /* TODO */

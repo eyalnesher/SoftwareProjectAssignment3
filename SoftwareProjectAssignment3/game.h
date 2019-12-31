@@ -63,7 +63,7 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value);
  * Return if the value `value` is legal for the cell in [row, column] in `board`
  * (there is no identical value in the same row, column or block).
  */
-bool is_leagl(SudokuBoard* board, size_t row, size_t column, int value);
+bool is_leagl(const SudokuBoard* board, size_t row, size_t column, int value);
 
 void do_turn(void);
 
