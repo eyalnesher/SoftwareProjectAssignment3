@@ -14,6 +14,7 @@ typedef char bool;
  */
 typedef struct {
     int value; /* The current value of the sudoku cell. 0 represents no value. */
+	int hint; /* A possible value of the sudoku cell. Use to generate hints. 0 represents no value. */
     bool is_fixed; /* Whether the cell is fixed or not */
 } SudokuCell;
 
