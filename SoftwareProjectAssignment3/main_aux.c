@@ -22,8 +22,14 @@ static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char
 	else {
 		cell_repr[0] = ' ';
 	}
-
-	sprintf(cell_repr + 1, "%d", cell_val);
+	
+	if (cell_val == 0) {
+		cell_repr[1] = ' ';
+	}
+	else {
+		sprintf(cell_repr + 1, "%d", cell_val);
+	}
+	
 }
 
 int user_input_setup(int* fixed_cells) {
