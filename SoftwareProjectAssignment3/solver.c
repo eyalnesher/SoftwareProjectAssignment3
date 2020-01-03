@@ -2,51 +2,35 @@
 #include "solver.h"
 
 /**
- * Solve the board using backtracking algorithm, with the function
- * `legal_cell_values` to iterate through the values (the function
- * passes to the caller an array of size `max_value` and with values
- * in the range [1, `max_value`] (each value appears once at last),
- * which represents an iterator of the legal values of the cell in
- * the position [row, column], ordered in the wanted iteration order, 
- * and returns the number of legal values. The values of index greater
- * than the legal values number might be garbage values, as they are
- * not ment to be iterated).
+ * Solve the board using backtracking algorithm, with the function `get_next_legal`
+ * to generate every time the next legal value when iterating through all of them.
+ * This function gets an ordered list of all the legal values (the list is of size
+ * `legal_values_count`) and returns the next value to be iterated.
  * Return if the board is solvable.
  */
  /* TODO */
 static bool solve_board(SudokuBoard* board, 
-	size_t (*legal_cell_values)(const SudokuBoard* board, size_t row, size_t column, 
-		int* values, size_t max_value)) {
+	int (*get_next_legal)(int* legal_values, size_t legal_values_count)) {
 	return True;
 }
 
 /**
- * Pass to the caller an array of size `max_value` and with values
- * in the range [1, `max_value`] (each value appears once at last), 
- * which represents an iterator of the legal values of the cell in
- * the position [row, column], ordered from 1 to `max_value`.
- * The values of index greater than the legal values number might
- * be garbage values, as they are not ment to be iterated.
- * Return the number of legal values.
+ * A generator which gets an ordered list of all the legal values (the list is of size
+ * `legal_values_count`), and generates deterministically the next value to be iterated.
+ * Return the first value the list.
  */
 /* TODO */
-static size_t deterministic_legal_cell_values(const SudokuBoard* board, size_t row, size_t column, 
-	int* values, size_t max_value) {
+static int deterministic_legal_cell_values(int* legal_values, size_t legal_values_count) {
 	return 0;
 }
 
 /**
- * Pass to the caller an array of size `max_value` and with values
- * in the range [1, `max_value`] (each value appears once at last),
- * which represents an iterator of the legal values of the cell in
- * the position [row, column], ordered randomly.
- * The values of index greater than the legal values number might
- * be garbage values, as they are not ment to be iterated.
- * Return the number of legal values.
+ * A generator which gets an ordered list of all the legal values (the list is of size
+ * `legal_values_count`), and generates randomly the next value to be iterated.
+ * Return a random value from the list.
  */
 /* TODO */
-static size_t random_legal_cell_values(const SudokuBoard* board, size_t row, size_t column, 
-	int* values, size_t max_value) {
+static int random_legal_cell_values(int* legal_values, size_t legal_values_count) {
 	return 0;
 }
 
