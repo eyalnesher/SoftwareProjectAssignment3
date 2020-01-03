@@ -2,15 +2,18 @@
 #include "game.h"
 #include "main_aux.h"
 
-int main(void) {
+#include <stdlib.h>
+
+int main(int argc, char* argv[]) {
 	int ret;
 	int fixed_cells;
-	int oooo;
 	SudokuBoard game_board;
 
 	if (user_input_setup(&fixed_cells) < 0) {
 		return 0;
 	}
+
+	srand(argc > 1 ? atoi(argv[1]) : 5);
 
 	create_game_board(&game_board, 3, 3, fixed_cells);
 
