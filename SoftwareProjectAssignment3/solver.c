@@ -19,9 +19,8 @@ static bool solve_board(SudokuBoard* board,
  * `legal_values_count`), and generates deterministically the next value to be iterated.
  * Return the first value the list.
  */
-/* TODO */
 static int deterministic_legal_cell_values(int* legal_values, size_t legal_values_count) {
-	return 0;
+	return legal_values[0];
 }
 
 /**
@@ -31,7 +30,7 @@ static int deterministic_legal_cell_values(int* legal_values, size_t legal_value
  */
 /* TODO */
 static int random_legal_cell_values(int* legal_values, size_t legal_values_count) {
-	return 0;
+	return legal_values[legal_values_count > 1 ? rand()% legal_values_count : 0];
 }
 
 /* TODO */
