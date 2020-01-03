@@ -15,7 +15,7 @@ static int get_next_legal(int* legal_values, size_t legal_values_count,
 	int value = legal_values[index];
 	if (index < legal_values_count - 1) {
 		/* Delete the value by overriding it with the values after it */
-		memmove(legal_values + index, legal_values + index + 1, legal_values_count - index - 1);
+		memmove(legal_values + index, legal_values + index + 1, (legal_values_count - index - 1) * sizeof(int));
 	}
 	return value;
 }
