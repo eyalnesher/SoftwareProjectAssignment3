@@ -102,6 +102,20 @@ static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column, int val
 	return 0;
 }
 
+int set_cell_hint(SudokuBoard* board, size_t row, size_t column, int hint) {
+	SudokuCell* cell;
+
+	if (hint < 1 || (size_t)hint > board->board_size || get_cell(board, row, column, &cell)) {
+		return -1;
+	}
+
+	if (!cell->is_fixed) {
+		cell->hint = hint;
+	}
+
+	return 0;
+}
+
 /* TODO */
 static void initialize_game(SudokuBoard* board, int hints) {
 
@@ -118,7 +132,6 @@ static void find_block(const SudokuBoard* board, size_t row, size_t column,
 	*start_block_column = (column / board->block_width) * board->block_width;
 }
 
-/* TODO */
 bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, int value) {
 	size_t cell_row, cell_column;
 	int cell_value;
