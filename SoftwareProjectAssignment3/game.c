@@ -1,6 +1,8 @@
 
 #include "game.h"
 
+#include "solver.h"
+
 #include <stdlib.h>
 
 int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
@@ -107,15 +109,26 @@ int clear_cell(SudokuBoard* board, size_t row, size_t column) {
 /**
  * Set the value of the cell at place [row, column] in `board`, and set it to be fixed.
  */
-static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column, int value){
+static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column) {
 	SudokuCell* cell;
 	
-	if (value < 1 || (size_t) value > board->board_size || get_cell(board, row, column, &cell) < 0){
+	if (get_cell(board, row, column, &cell) < 0){
 		return -1;
 	}
-	
-	cell->value = value;
+
 	cell->is_fixed = True;
+
+	return 0;
+}
+
+int get_cell_hint(SudokuBoard* board, size_t row, size_t column, int* hint) {
+	SudokuCell* cell;
+
+	if (get_cell(board, row, column, &cell) < 0) {
+		return -1;
+	}
+
+	*hint = cell->hint;
 
 	return 0;
 }
@@ -184,6 +197,51 @@ bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, i
 
 	return True; /* No identical value have been found in the same row, column or block */
 }
+
+/**
+ * Generate deterministically the index of the next value to be iterated in a list
+ * of legal values.
+ * Return the first value the list.
+ */
+static size_t deterministic_legal_cell_values(size_t legal_values_count) {
+	return 0;
+}
+
+/**
+ * Generate randomly the index of the next value to be iterated in a list
+ * of legal values.
+ * Return the first value the list.
+ */
+static size_t random_legal_cell_values(size_t legal_values_count) {
+	return legal_values_count > 1 ? rand() % legal_values_count : 0;
+}
+
+void generate_board(SudokuBoard* board, size_t fixed) {
+	size_t hint_index;
+	size_t row, column;
+	bool is_fixed;
+	int hint;
+
+	clear_game_board(board);
+	solve_board(board, random_legal_cell_values); /* The board is empty and therefore solvable */
+	for (hint_index = 0; hint_index < fixed; hint_index++) {
+		do {
+			column = rand() % board->board_size;
+			row = rand() % board->board_size;
+			is_cell_fixed(board, row, column, &is_fixed);
+		} while (is_fixed);
+
+		get_cell_hint(board, row, column, &hint);
+		set_cell_value(board, row, column, hint);
+		set_cell_fixed(board, row, column);
+
+	}
+}
+
+bool validate_board(SudokuBoard* board) {
+	return solve_board(board, deterministic_legal_cell_values);
+}
+
 
 /* TODO */
 void do_turn(void) {

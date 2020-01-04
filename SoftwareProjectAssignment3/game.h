@@ -72,6 +72,12 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value);
 int clear_cell(SudokuBoard* board, size_t row, size_t column);
 
 /**
+ * Get the hint of the cell at the given position if its not a fixed cell.
+ * Return 0 if the cell exists, -1 otherwise.
+ */
+int get_cell_hint(SudokuBoard* board, size_t row, size_t column, int* hint);
+
+/**
  * Set the hint of the cell at the given position if its not a fixed cell.
  * Return 0 if the cell exists, -1 otherwise.
  */
@@ -82,6 +88,18 @@ int set_cell_hint(SudokuBoard* board, size_t row, size_t column, int hint);
  * (there is no identical value in the same row, column or block).
  */
 bool is_leagl(const SudokuBoard* board, size_t row, size_t column, int value);
+
+/**
+ * Generate a board with `fixed` initial fixed cells.
+ */
+void generate_board(SudokuBoard* board, size_t fixed);
+
+/**
+ * Solve the board from its current state.
+ * Change the board to the first solution found (if such solution exists).
+ * Return if the board is solvable.
+ */
+bool validate_board(SudokuBoard* board);
 
 void do_turn(void);
 

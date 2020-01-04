@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
 	srand(argc > 1 ? atoi(argv[1]) : 5);
 
 	create_game_board(&game_board, 3, 3, fixed_cells);
+	generate_board(&game_board, (size_t) fixed_cells);
 
 	print_board(&game_board);
 	
