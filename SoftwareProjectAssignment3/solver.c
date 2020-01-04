@@ -140,5 +140,5 @@ void generate_board(SudokuBoard* board, int fixed) {
 
 /* TODO */
 bool validate_board(SudokuBoard* board) {
-	return True;
+	return solve_board(board, deterministic_legal_cell_values);
 }
