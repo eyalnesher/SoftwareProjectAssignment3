@@ -79,6 +79,7 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996;4710;4668;4711</DisableSpecificWarnings>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,6 +94,7 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996;4710;4668;4711</DisableSpecificWarnings>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +111,7 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996;4710;4668;4711</DisableSpecificWarnings>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +130,7 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996;4710;4668;4711</DisableSpecificWarnings>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
