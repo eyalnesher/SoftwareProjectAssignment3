@@ -63,7 +63,7 @@ int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* val
 int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_fixed){
 	SudokuCell* cell;
 
-	if (get_cell(board, row, column, &cell)) {
+	if (get_cell(board, row, column, &cell) < 0) {
 		return -1;
 	}
 	
@@ -75,12 +75,26 @@ int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_
 int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value) {
 	SudokuCell* cell;
 
-	if (value < 1 || (size_t) value > board->board_size || get_cell(board, row, column, &cell)) {
+	if (value < 1 || (size_t) value > board->board_size || get_cell(board, row, column, &cell) < 0) {
 		return -1;
 	}
 	
 	if (!cell->is_fixed) {
 		cell->value = value;
+	}
+
+	return 0;
+}
+
+int clear_cell(SudokuBoard* board, size_t row, size_t column) {
+	SudokuCell* cell;
+
+	if (get_cell(board, row, column, &cell) < 0) {
+		return -1;
+	}
+
+	if (!cell->is_fixed) {
+		cell->value = 0;
 	}
 
 	return 0;
@@ -92,7 +106,7 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value) {
 static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column, int value){
 	SudokuCell* cell;
 	
-	if (value < 1 || (size_t) value > board->board_size || get_cell(board, row, column, &cell)){
+	if (value < 1 || (size_t) value > board->board_size || get_cell(board, row, column, &cell) < 0){
 		return -1;
 	}
 	

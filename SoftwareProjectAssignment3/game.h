@@ -55,12 +55,20 @@ int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* val
 int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_fixed);
 
 /**
- * Set the value of the cell at the given position if its not a fixed cell
+ * Set the value of the cell at the given position if its not a fixed cell.
+ * Return 0 if the cell exists, -1 otherwise.
  */
 int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value);
 
 /**
- * Set the hint of the cell at the given position if its not a fixed cell
+ * Clear  the cell at the given position (set its value to be the default value).
+ * Return 0 if the cell exists and the value is valid, -1 otherwise.
+ */
+int clear_cell(SudokuBoard* board, size_t row, size_t column);
+
+/**
+ * Set the hint of the cell at the given position if its not a fixed cell.
+ * Return 0 if the cell exists, -1 otherwise.
  */
 int set_cell_hint(SudokuBoard* board, size_t row, size_t column, int hint);
 
