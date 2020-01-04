@@ -21,6 +21,10 @@ void free_game_board(SudokuBoard* board) {
 	free(board->board);
 }
 
+void clear_game_board(SudokuBoard* board) {
+	memset(board->board, 0, board->board_size * board->board_size * sizeof(SudokuCell));
+}
+
 /**
  * Return if the place [row, column] exists in the board.
  */

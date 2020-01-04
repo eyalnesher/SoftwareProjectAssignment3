@@ -41,6 +41,11 @@ int create_game_board(SudokuBoard* board, const size_t block_width, const size_t
 void free_game_board(SudokuBoard* board);
 
 /**
+ * Clear the given `SudokuBoard` object, by setting all the fields to their default values.
+ */
+void clear_game_board(SudokuBoard* board);
+
+/**
  * Retrieve the cell value at the given position in the board,
  * and pass it to the caller through `value`.
  * Return 0 if the cell exists, -1 otherwise.
