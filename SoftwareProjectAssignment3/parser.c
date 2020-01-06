@@ -88,19 +88,20 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 	/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
 	if (test_args(func_name, args_count, "hint", 2)) {
 		hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
+		printf("hint: %d\n", hint);
 		return 0;
 	}
 
 	/* Syntax: validate; meaning: checks to see whether the current board state is solveable */
-	if (test_args(func_name, args_count, "restart", 0)) {
-		if (!validate_board(board)) {
+	if (test_args(func_name, args_count, "validate", 0)) {
+		if(!validate_board(board)){
 			printf("Validation failed: board is unsolvable\n");
 		}
 		return 0;
 	}
 
 	/* Syntax: restart; meaning: restart the game, creating a new puzzle */
-	if (test_args(func_name, args_count, "validate", 0)) {
+	if (test_args(func_name, args_count, "restart", 0)) {
 		restart_game(board);
 		return 0;
 	}
