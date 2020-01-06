@@ -6,8 +6,17 @@
 #include <stdlib.h>
 
 int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
-	board->board = NULL;
-	return restart_board(board, block_width, block_height, hints)
+	board->board_size = block_width * block_height;
+
+	board->board = (SudokuCell*) calloc(board->board_size * board->board_size, sizeof(SudokuCell));
+	if (!board->board) {
+		return -1;
+	}
+
+	board->block_width = block_width;
+	board->block_height = block_height;
+		
+	return 0;
 }
 
 void free_game_board(SudokuBoard* board) {
@@ -16,23 +25,6 @@ void free_game_board(SudokuBoard* board) {
 
 void clear_game_board(SudokuBoard* board) {
 	memset(board->board, 0, board->board_size * board->board_size * sizeof(SudokuCell));
-}
-
-int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
-	board->board_size = block_width * block_height; /* Set dimentions */
-
-	/* Allocate memory for the cells */
-	board->board = (SudokuCell*) realloc(board->board_size * board->board_size * sizeof(SudokuCell), board->board);
-	if (!board->board) {
-		return -1;
-	}
-	clear_game_board(board); /* Clear the board */
-
-	/* Set dimentions */
-	board->block_width = block_width;
-	board->block_height = block_height;
-
-	return 0;
 }
 
 /**
@@ -249,6 +241,7 @@ void generate_board(SudokuBoard* board, size_t fixed) {
 bool validate_board(SudokuBoard* board) {
 	return solve_board(board, deterministic_legal_cell_values);
 }
+
 
 /* TODO */
 void do_turn(void) {
