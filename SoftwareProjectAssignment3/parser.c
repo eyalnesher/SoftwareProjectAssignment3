@@ -88,7 +88,7 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 	/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
 	if (test_args(func_name, args_count, "hint", 2)) {
 		hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
-		printf("hint: %d\n", hint);
+		printf("hint: %d\n", (int) hint);
 		return 0;
 	}
 
