@@ -7,7 +7,7 @@
 
 int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
 	board->board = NULL;
-	return restart_board(board, block_width, block_height, hints)
+	return restart_board(board, block_width, block_height, hints);
 }
 
 void free_game_board(SudokuBoard* board) {
@@ -22,8 +22,9 @@ int restart_board(SudokuBoard* board, const size_t block_width, const size_t blo
 	board->board_size = block_width * block_height; /* Set dimentions */
 
 	/* Allocate memory for the cells */
-	board->board = (SudokuCell*) realloc(board->board_size * board->board_size * sizeof(SudokuCell), board->board);
+	board->board = (SudokuCell*) realloc(board->board, board->board_size * board->board_size * sizeof(SudokuCell));
 	if (!board->board) {
+		free(board->board);
 		return -1;
 	}
 	clear_game_board(board); /* Clear the board */
