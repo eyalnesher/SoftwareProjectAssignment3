@@ -101,6 +101,12 @@ void generate_board(SudokuBoard* board, size_t fixed);
  */
 bool validate_board(SudokuBoard* board);
 
+/**
+ * Restart the board with new dimentions and number of fixed cells.
+ * Return 0 on success, -1 otherwise (can fail due to memory allocation failure).
+ */
+int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints);
+
 void do_turn(void);
 
 #endif /* !GAME_H */
