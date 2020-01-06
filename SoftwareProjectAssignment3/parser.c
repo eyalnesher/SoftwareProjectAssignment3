@@ -10,7 +10,7 @@
  * and pass it to the caller through `parsed_string`.
  * Return the number of the generated strings.
  */
-static int parse_delimeter(char* str, char* delimiter, char** parsed_string, size_t max_args) {
+static size_t parse_delimeter(char* str, char* delimiter, char** parsed_string, size_t max_args) {
 	char* token;
 	size_t count = 0;
 
@@ -41,7 +41,7 @@ static int get_argumets(char** function_name, size_t* function_args, size_t* fun
 	arg_cnt = parse_delimeter(line, " ", parsed_func, MAX_ARG_CNT + 1);
 	
 
-	if (arg_cnt < 0) {
+	if (arg_cnt == 0) {
 		return -1; /* line is empty? */
 	}
 
@@ -77,21 +77,21 @@ static int test_args(char* func_name, size_t args_count, char* tested_name, size
 
 /* TODO - RETURN VALUE */
 int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count) {
-	int hint;
+	size_t hint;
 
-	/* syntax: set X Y Z; meaning: set column X row Y cell value to Z */
+	/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
 	if (test_args(func_name, args_count, "set", 3)) {
 		set_cell_value(board, func_args[1] - 1, func_args[0] - 1, func_args[2]);
 		return 0;
 	}
 
-	/* syntax: hint X Y; meaning: get a hint on column X row Y cell */
+	/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
 	if (test_args(func_name, args_count, "hint", 2)) {
-		get_cell_hint(board, func_args[1] - 1, func_args[0] - 1, &hint);
+		hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
 		return 0;
 	}
 
-	/* syntax: validate; meaning: checks to see whether the current board state is solveable */
+	/* Syntax: validate; meaning: checks to see whether the current board state is solveable */
 	if (test_args(func_name, args_count, "restart", 0)) {
 		if (!validate_board(board)) {
 			printf("Validation failed: board is unsolvable\n");
@@ -99,13 +99,13 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 		return 0;
 	}
 
-	/* syntax: restart; meaning: restart the game, creating a new puzzle */
+	/* Syntax: restart; meaning: restart the game, creating a new puzzle */
 	if (test_args(func_name, args_count, "validate", 0)) {
 		restart_game(board);
 		return 0;
 	}
 
-	/* syntax: exit; meaning: exit the game, freeing all memory resources */
+	/* Syntax: exit; meaning: exit the game, freeing all memory resources */
 	if (test_args(func_name, args_count, "exit", 0)) {
 		exit_game();
 		return 0;

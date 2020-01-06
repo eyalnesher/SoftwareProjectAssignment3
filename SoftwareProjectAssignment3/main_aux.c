@@ -10,11 +10,11 @@
  * Assume that the given cell exists. 
  */
 static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char* cell_repr) {
-	int cell_val;
+	size_t cell_val;
 	bool is_fixed;
 
-	get_cell_value(board, row, column, &cell_val);
-	is_cell_fixed(board, row, column, &is_fixed);
+	cell_val = get_cell_value(board, row, column);
+	is_fixed = is_cell_fixed(board, row, column);
 
 	if (is_fixed) {
 		cell_repr[0] = '.';
@@ -27,7 +27,7 @@ static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char
 		sprintf(cell_repr + 1, " ");
 	}
 	else {
-		sprintf(cell_repr + 1, "%d", cell_val);
+		sprintf(cell_repr + 1, "%d", (int) cell_val);
 	}
 	
 }
@@ -53,7 +53,7 @@ int user_input_setup(int* fixed_cells) {
 /**
  * Prints the row seperator string of the string representation of the board.
  */
-static void print_row_seperator() {
+static void print_row_seperator(void) {
 	printf("----------------------------------\n");
 }
 
@@ -72,7 +72,7 @@ void print_board(SudokuBoard* board) {
 				for (col = 0; col < board->block_width; col++) {
 					/* prints cell (row, col) of block (block_row, block_col) */
 
-					cell_string_repr(board, block_row * board->block_height + row, block_col * board->block_width + col, &repr);
+					cell_string_repr(board, block_row * board->block_height + row, block_col * board->block_width + col, repr);
 					printf(" %s", repr);
 				}
 				printf(" |");

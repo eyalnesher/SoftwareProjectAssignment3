@@ -7,14 +7,14 @@
 #define True (1)
 #define False (0)
 
-typedef char bool;
+typedef int bool;
 
 /**
  * A structure which represents a sudoku cell (its value and whether it's a fixed cell)
  */
 typedef struct {
-    int value; /* The current value of the sudoku cell. 0 represents no value. */
-	int hint; /* A possible value of the sudoku cell. Use to generate hints. 0 represents no value. */
+    size_t value; /* The current value of the sudoku cell. 0 represents no value. */
+	size_t hint; /* A possible value of the sudoku cell. Use to generate hints. 0 represents no value. */
     bool is_fixed; /* Whether the cell is fixed or not */
 } SudokuCell;
 
@@ -46,53 +46,42 @@ void free_game_board(SudokuBoard* board);
 void clear_game_board(SudokuBoard* board);
 
 /**
- * Retrieve the cell value at the given position in the board,
- * and pass it to the caller through `value`.
- * Return 0 if the cell exists, -1 otherwise.
+ * Return the cell value at the given position in the board.
  */
-int get_cell_value(const SudokuBoard* board, size_t row, size_t column, int* value);
+size_t get_cell_value(const SudokuBoard* board, size_t row, size_t column);
 
 /**
- * Retrieve whether the cell at the given position is a fixed cell,
- * and pass it to the caller through `is_fixed`.
- * Return 0 if the cell exists, -1 otherwise.
+ * Return the cell at the given position is a fixed cell.
  */
-int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column, bool* is_fixed);
+bool is_cell_fixed(const SudokuBoard* board, size_t row, size_t column);
 
 /**
  * Set the value of the cell at the given position if its not a fixed cell.
- * Return 0 if the cell exists, -1 otherwise.
+ * Return 0 if value is valid, -1 otherwise.
  */
-int set_cell_value(SudokuBoard* board, size_t row, size_t column, int value);
+int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value);
 
 /**
- * Clear  the cell at the given position (set its value to be the default value).
- * Return 0 if the cell exists and the value is valid, -1 otherwise.
+ * Clear the cell at the given position (set its value to be the default value).
  */
-int clear_cell(SudokuBoard* board, size_t row, size_t column);
+void clear_cell(SudokuBoard* board, size_t row, size_t column);
 
 /**
- * Get the hint of the cell at the given position if its not a fixed cell.
- * Return 0 if the cell exists, -1 otherwise.
+ * Return the hint of the cell at the given position if its not a fixed cell.
  */
-int get_cell_hint(SudokuBoard* board, size_t row, size_t column, int* hint);
+size_t get_cell_hint(SudokuBoard* board, size_t row, size_t column);
 
 /**
  * Set the hint of the cell at the given position if its not a fixed cell.
- * Return 0 if the cell exists, -1 otherwise.
+ * Return 
  */
-int set_cell_hint(SudokuBoard* board, size_t row, size_t column, int hint);
+int set_cell_hint(SudokuBoard* board, size_t row, size_t column, size_t hint);
 
 /**
  * Return if the value `value` is legal for the cell in [row, column] in `board`
  * (there is no identical value in the same row, column or block).
  */
-bool is_leagl(const SudokuBoard* board, size_t row, size_t column, int value);
-
-/**
- * Generate a board with `fixed` initial fixed cells.
- */
-void generate_board(SudokuBoard* board, size_t fixed);
+bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, size_t value);
 
 /**
  * Solve the board from its current state.
@@ -105,8 +94,11 @@ bool validate_board(SudokuBoard* board);
  * Restart the board with new dimentions and number of fixed cells.
  * Return 0 on success, -1 otherwise (can fail due to memory allocation failure).
  */
-int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints);
+int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, size_t hints);
 
 void do_turn(void);
+
+void restart_game(SudokuBoard* board);
+void exit_game(void);
 
 #endif /* !GAME_H */
