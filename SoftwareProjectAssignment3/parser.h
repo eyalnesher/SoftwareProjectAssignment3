@@ -11,7 +11,7 @@
  * Run the given coomand
  * Return 0 on success, -1 otherwise.
  */
-int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count, bool* continue_executing);
+int run_command(SudokuBoard* board, char* func_name, int* func_args, int args_count, bool* continue_executing);
 
 /**
  * Get a command and its arguments through stdin, and runs the command

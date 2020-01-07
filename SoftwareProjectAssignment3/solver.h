@@ -13,6 +13,6 @@
  * Return if the board is solvable.
  * A wrapper function to `solve_board_recursive`, which begins from the first cell.
  */
-bool solve_board(SudokuBoard* board, size_t(*get_next_legal)(size_t legal_values_count));
+bool solve_board(SudokuBoard* board, int(*get_next_legal)(int legal_values_count));
 
 #endif /* !SOLVER_H */

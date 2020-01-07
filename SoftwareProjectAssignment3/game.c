@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void generate_board(SudokuBoard* board, size_t fixed);
+static void generate_board(SudokuBoard* board, int fixed);
 
-int create_game_board(SudokuBoard* board, const size_t block_width, const size_t block_height, int hints) {
+int create_game_board(SudokuBoard* board, const int block_width, const int block_height, int hints) {
 	board->board = NULL;
 	return restart_board(board, block_width, block_height, hints);
 }
@@ -22,9 +22,9 @@ void clear_game_board(SudokuBoard* board) {
 	board->filled_cells = 0;
 }
 
-int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, size_t hints) {
+int restart_board(SudokuBoard* board, const int block_width, const int block_height, int hints) {
 	SudokuCell* new_board;
-	size_t board_size = block_width * block_height;
+	int board_size = block_width * block_height;
 
 	/* Allocate memory for the board */
 	new_board = (SudokuCell*) realloc(board->board, sizeof(SudokuCell) * board_size * board_size);
@@ -51,14 +51,14 @@ bool is_solved(SudokuBoard* board) {
 /**
  * Return if the place [row, column] exists in the board.
  */
-static bool does_cell_exist(const SudokuBoard* board, size_t row, size_t column) {
+static bool does_cell_exist(const SudokuBoard* board, int row, int column) {
 	return row < board->board_size && column < board->board_size;
 }
 
 /**
  * Return the absulute index (one dimentional) of the cell in place [row, column]
  */
-static size_t cell_index(const SudokuBoard* board, size_t row, size_t column) {
+static int cell_index(const SudokuBoard* board, int row, int column) {
 	return row * board->board_size + column;
 }
 
@@ -67,15 +67,15 @@ static size_t cell_index(const SudokuBoard* board, size_t row, size_t column) {
  * and pass it to the caller through `cell`.
  * Return 0 if the cell exists, -1 otherwise.
  */
-static void get_cell(const SudokuBoard* board, size_t row, size_t column, SudokuCell** cell) {
+static void get_cell(const SudokuBoard* board, int row, int column, SudokuCell** cell) {
 	if (does_cell_exist(board, row, column)) {
 		*cell = board->board + cell_index(board, row, column); 
 	}
 }
 
-size_t get_cell_value(const SudokuBoard* board, size_t row, size_t column) {
+int get_cell_value(const SudokuBoard* board, int row, int column) {
 	SudokuCell* cell;
-	size_t value;
+	int value;
 	
 	get_cell(board, row, column, &cell);
 
@@ -84,7 +84,7 @@ size_t get_cell_value(const SudokuBoard* board, size_t row, size_t column) {
 	return value;
 }
 
-int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column){
+int is_cell_fixed(const SudokuBoard* board, int row, int column){
 	SudokuCell* cell;
 
 	get_cell(board, row, column, &cell);
@@ -92,7 +92,7 @@ int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column){
 	return cell->is_fixed;
 }
 
-int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) {
+int set_cell_value(SudokuBoard* board, int row, int column, int value) {
 	SudokuCell* cell;
 
 	get_cell(board, row, column, &cell);
@@ -108,7 +108,7 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) 
 	return 0;
 }
 
-int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) {
+int legal_set_cell_value(SudokuBoard* board, int row, int column, int value) {
 	SudokuCell* cell;
 
 	get_cell(board, row, column, &cell);
@@ -128,14 +128,14 @@ int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t v
 
 }
 
-void clear_cell(SudokuBoard* board, size_t row, size_t column) {
+void clear_cell(SudokuBoard* board, int row, int column) {
 	set_cell_value(board, row, column, 0);
 }
 
 /**
  * Set the value of the cell at place [row, column] in `board`, and set it to be fixed.
  */
-static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column) {
+static int set_cell_fixed(SudokuBoard* board, int row, int column) {
 	SudokuCell* cell;
 	
 	get_cell(board, row, column, &cell);
@@ -145,7 +145,7 @@ static int set_cell_fixed(SudokuBoard* board, size_t row, size_t column) {
 	return 0;
 }
 
-size_t get_cell_hint(SudokuBoard* board, size_t row, size_t column) {
+int get_cell_hint(SudokuBoard* board, int row, int column) {
 	SudokuCell* cell;
 
 	get_cell(board, row, column, &cell);
@@ -153,10 +153,10 @@ size_t get_cell_hint(SudokuBoard* board, size_t row, size_t column) {
 	return cell->hint;
 }
 
-int set_cell_hint(SudokuBoard* board, size_t row, size_t column, size_t hint) {
+int set_cell_hint(SudokuBoard* board, int row, int column, int hint) {
 	SudokuCell* cell;
 
-	if (hint < 1 || (size_t) hint > board->board_size) {
+	if (hint < 1 || (int) hint > board->board_size) {
 		return -1;
 	}
 
@@ -174,16 +174,16 @@ int set_cell_hint(SudokuBoard* board, size_t row, size_t column, size_t hint) {
  * corner coordinates to the caller through `start_block_row`, `start_block_column`.
  * Assumes the cell exists in the board.
  */
-static void find_block(const SudokuBoard* board, size_t row, size_t column,
-	size_t* start_block_row, size_t* start_block_column) {
+static void find_block(const SudokuBoard* board, int row, int column,
+	int* start_block_row, int* start_block_column) {
 	*start_block_row = (row / board->block_height) * board->block_height;
 	*start_block_column = (column / board->block_width) * board->block_width;
 }
 
-bool is_legal(const SudokuBoard* board, const size_t row, const size_t column, size_t value) {
-	size_t cell_row, cell_column;
-	size_t cell_value;
-	size_t start_block_row, start_block_column;
+bool is_legal(const SudokuBoard* board, const int row, const int column, int value) {
+	int cell_row, cell_column;
+	int cell_value;
+	int start_block_row, start_block_column;
 
 	/* Search in row */
 	for (cell_column = 0; cell_column < board->board_size; cell_column++) {
@@ -226,7 +226,7 @@ bool is_legal(const SudokuBoard* board, const size_t row, const size_t column, s
  * of legal values.
  * Return the first value the list.
  */
-static size_t deterministic_legal_cell_values(size_t legal_values_count) {
+static int deterministic_legal_cell_values(int legal_values_count) {
 	(void) legal_values_count; /* There is no use for `legal_values_count` */
 	return 0;
 }
@@ -236,21 +236,21 @@ static size_t deterministic_legal_cell_values(size_t legal_values_count) {
  * of legal values.
  * Return the first value the list.
  */
-static size_t random_legal_cell_values(size_t legal_values_count) {
+static int random_legal_cell_values(int legal_values_count) {
 	return legal_values_count > 1 ? rand() % legal_values_count : 0;
 }
 
 /**
  * Generate a board with `fixed` initial fixed cells.
  */
-static void generate_board(SudokuBoard* board, size_t fixed) {
-	size_t hint_index;
-	size_t row, column;
+static void generate_board(SudokuBoard* board, int fixed) {
+	int hint_index;
+	int row, column;
 	bool is_fixed;
-	size_t hint;
+	int hint;
 
 	clear_game_board(board);
-	solve_board(board, deterministic_legal_cell_values); /* The board is empty and therefore solvable */
+	solve_board(board, random_legal_cell_values); /* The board is empty and therefore solvable */
 	for (hint_index = 0; hint_index < fixed; hint_index++) {
 		do {
 			column = rand() % board->board_size;

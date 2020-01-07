@@ -12,8 +12,8 @@
  * (" <value>" for non-fixed cells, ".<value>" for fixed cells), through `cell_repr`.
  * Assume that the given cell exists. 
  */
-static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char* cell_repr) {
-	size_t cell_val;
+static void cell_string_repr(SudokuBoard* board, int row, int column, char* cell_repr) {
+	int cell_val;
 	bool is_fixed;
 
 	cell_val = get_cell_value(board, row, column);
@@ -64,7 +64,7 @@ static void print_row_seperator(void) {
 }
 
 void print_board(SudokuBoard* board) {
-	size_t block_row, block_col, row, col;
+	int block_row, block_col, row, col;
 	char repr[sizeof(int) + 1];
 
 	print_row_seperator();

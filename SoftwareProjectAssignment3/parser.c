@@ -10,9 +10,9 @@
  * and pass it to the caller through `parsed_string`.
  * Return the number of the generated strings.
  */
-static size_t parse_delimeter(char* str, char* delimiter, char** parsed_string, size_t max_args) {
+static int parse_delimeter(char* str, char* delimiter, char** parsed_string, int max_args) {
 	char* token;
-	size_t count = 0;
+	int count = 0;
 
 	token = strtok(str, delimiter);
 
@@ -27,11 +27,11 @@ static size_t parse_delimeter(char* str, char* delimiter, char** parsed_string, 
 /**
  * Gets input from stdin, parses the input using parse_delimeter and calculates the function's name and arguments
  */
-static int get_argumets(char** function_name, size_t* function_args, size_t* function_args_size) {
+static int get_argumets(char** function_name, int* function_args, int* function_args_size) {
 	char line[MAX_CHAR_CNT];
 	char* parsed_func[MAX_ARG_CNT];
-	size_t arg_cnt;
-	size_t i;
+	int arg_cnt;
+	int i;
 
 	if (fgets(line, MAX_CHAR_CNT, stdin) == NULL) {
 		return -1; /* EOF encountered */
@@ -59,8 +59,8 @@ static int get_argumets(char** function_name, size_t* function_args, size_t* fun
  */
 int get_and_run(SudokuBoard* board, bool* continue_executing) {
 	char* func_name;
-	size_t func_args[MAX_ARG_CNT];
-	size_t arg_count;
+	int func_args[MAX_ARG_CNT];
+	int arg_count;
 	
 	get_argumets(&func_name, func_args, &arg_count);
 
@@ -70,15 +70,15 @@ int get_and_run(SudokuBoard* board, bool* continue_executing) {
 /**
  * Test the equality of the function name and function argument count to the tested_name and tested_args_count
  */
-static int test_args(char* func_name, size_t args_count, char* tested_name, size_t tested_args_count) {
+static int test_args(char* func_name, int args_count, char* tested_name, int tested_args_count) {
 	return func_name != NULL && tested_name != NULL && strcmp(func_name, tested_name) == 0 && args_count >= tested_args_count;
 }
 
 
 /* TODO - RETURN VALUE */
-int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count, bool* continue_executing) {
-	size_t hint;
-	size_t row, column;
+int run_command(SudokuBoard* board, char* func_name, int* func_args, int args_count, bool* continue_executing) {
+	int hint;
+	int row, column;
 	int ret;
 
 	*continue_executing = True;
@@ -98,7 +98,7 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 		/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
 		if (test_args(func_name, args_count, "hint", 2)) {
 			hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
-			printf("hint: %d\n", (int)hint);
+			printf("Hint: set cell to %d\n", (int)hint);
 			return 0;
 		}
 

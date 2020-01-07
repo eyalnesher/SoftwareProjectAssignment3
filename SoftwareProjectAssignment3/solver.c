@@ -10,10 +10,10 @@
  * The value in the given index would be deleted.
  * Return a value from `legal_values`.
  */
-static size_t get_next_legal(size_t* legal_values, size_t legal_values_count,
-	size_t (*legal_index_generator)(size_t legal_values_count)) {
-	size_t index = legal_index_generator(legal_values_count);
-	size_t value = legal_values[index];
+static int get_next_legal(int* legal_values, int legal_values_count,
+	int (*legal_index_generator)(int legal_values_count)) {
+	int index = legal_index_generator(legal_values_count);
+	int value = legal_values[index];
 	if (index < legal_values_count - 1) {
 		/* Delete the value by overriding it with the values after it */
 		memmove(legal_values + index, legal_values + index + 1, (legal_values_count - index - 1) * sizeof(int));
@@ -25,9 +25,9 @@ static size_t get_next_legal(size_t* legal_values, size_t legal_values_count,
  * Pass to the caller all the legal values of the cell at place [row, column] in the board.
  * Return the number of legal values.
  */
-static size_t get_all_legal(const SudokuBoard* board, size_t row, size_t column, size_t* legal_values) {
-	size_t value;
-	size_t values_count = 0;
+static int get_all_legal(const SudokuBoard* board, int row, int column, int* legal_values) {
+	int value;
+	int values_count = 0;
 
 	for (value = 1; value <= board->board_size; value++) {
 		if (is_legal(board, row, column, value)) {
@@ -46,19 +46,19 @@ static size_t get_all_legal(const SudokuBoard* board, size_t row, size_t column,
  * Solve the board recursively from the cell at place [row, column].
  * Return if the board is solvable.
  */
-static bool solve_board_recursive(SudokuBoard* board, size_t row, size_t column,
-	size_t (*legal_index_generator)(size_t legal_values_count)) {
-	size_t* legal_values;
-	size_t values_count;
-	size_t next_row = row, next_column = column + 1;
-	size_t value;
+static bool solve_board_recursive(SudokuBoard* board, int row, int column,
+	int (*legal_index_generator)(int legal_values_count)) {
+	int* legal_values;
+	int values_count;
+	int next_row = row, next_column = column + 1;
+	int value;
 	
 	/* Base case - all of the board cells are solved */
 	if (row >= board->board_size) {
 		return True;
 	}
 
-	legal_values = (size_t*) malloc(board->board_size * sizeof(size_t));
+	legal_values = (int*) malloc(board->board_size * sizeof(int));
 	if (!legal_values) {
 		return False;
 	}
@@ -101,6 +101,6 @@ static bool solve_board_recursive(SudokuBoard* board, size_t row, size_t column,
 }
 
 bool solve_board(SudokuBoard* board, 
-	size_t (*get_next_legal)(size_t legal_values_count)) {
+	int (*get_next_legal)(int legal_values_count)) {
 	return solve_board_recursive(board, 0, 0, get_next_legal);
 }
