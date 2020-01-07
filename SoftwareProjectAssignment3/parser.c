@@ -78,30 +78,43 @@ static int test_args(char* func_name, size_t args_count, char* tested_name, size
 /* TODO - RETURN VALUE */
 int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count) {
 	size_t hint;
+	size_t row, column;
+	int ret;
 
-	/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
-	if (test_args(func_name, args_count, "set", 3)) {
-		
-		set_cell_value(board, func_args[1] - 1, func_args[0] - 1, func_args[2]);
+	if (test_args(func_name, args_count, "k", 0)) {
+		printf("%d\n", board->filled_cells);
 		return 0;
 	}
 
-	/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
-	if (test_args(func_name, args_count, "hint", 2)) {
-		hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
-		printf("hint: %d\n", (int) hint);
-		return 0;
-	}
+	if (!is_solved(board)) {
+		/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
+		if (test_args(func_name, args_count, "set", 3)) {
+			ret = legal_set_cell_value(board, func_args[1] - 1, func_args[0] - 1, func_args[2]);
+			
+			if (is_solved(board)) {
+				printf("Puzzle solved successfully\n");
+			}
 
-	/* Syntax: validate; meaning: checks to see whether the current board state is solveable */
-	if (test_args(func_name, args_count, "validate", 0)) {
-		if(validate_board(board)){
-			printf("Validation passed: board is solvable\n");
+			return ret;
 		}
-		else {
-			printf("Validation failed: board is unsolvable\n");
+
+		/* Syntax: hint X Y; meaning: get a hint on column X row Y cell */
+		if (test_args(func_name, args_count, "hint", 2)) {
+			hint = get_cell_hint(board, func_args[1] - 1, func_args[0] - 1);
+			printf("hint: %d\n", (int)hint);
+			return 0;
 		}
-		return 0;
+
+		/* Syntax: validate; meaning: checks to see whether the current board state is solveable */
+		if (test_args(func_name, args_count, "validate", 0)) {
+			if (validate_board(board)) {
+				printf("Validation passed: board is solvable\n");
+			}
+			else {
+				printf("Validation failed: board is unsolvable\n");
+			}
+			return 0;
+		}
 	}
 
 	/* Syntax: restart; meaning: restart the game, creating a new puzzle */
