@@ -67,8 +67,6 @@ bool is_cell_fixed(const SudokuBoard* board, size_t row, size_t column);
  */
 int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value);
 
-int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value);
-
 /**
  * Clear the cell at the given position (set its value to be the default value).
  */
@@ -89,7 +87,7 @@ int set_cell_hint(SudokuBoard* board, size_t row, size_t column, size_t hint);
  * Return if the value `value` is legal for the cell in [row, column] in `board`
  * (there is no identical value in the same row, column or block).
  */
-bool is_legal(const SudokuBoard* board, const size_t row, const size_t column, size_t value);
+bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, size_t value);
 
 /**
  * Solve the board from its current state.

@@ -19,7 +19,6 @@ void free_game_board(SudokuBoard* board) {
 
 void clear_game_board(SudokuBoard* board) {
 	memset(board->board, 0, board->board_size * board->board_size * sizeof(SudokuCell));
-	board->filled_cells = 0;
 }
 
 int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, size_t hints) {
@@ -96,6 +95,10 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) 
 	SudokuCell* cell;
 
 	get_cell(board, row, column, &cell);
+	
+	if (cell->is_fixed) {
+		return -1;
+	}
 
 	if (value == 0 && cell->value > 0) {
 		board->filled_cells--;
@@ -109,22 +112,6 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) 
 }
 
 int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) {
-	SudokuCell* cell;
-
-	get_cell(board, row, column, &cell);
-
-	if (cell->is_fixed) {
-		printf("Error: cell is fixed\n");
-		return -1;
-	}
-
-	if (value == 0 || is_legal(board, row, column, value)) {
-		set_cell_value(board, row, column, value);
-		return 0;
-	}
-
-	printf("Error: value is invalid\n");
-	return -1;
 
 }
 
@@ -180,7 +167,7 @@ static void find_block(const SudokuBoard* board, size_t row, size_t column,
 	*start_block_column = (column / board->block_width) * board->block_width;
 }
 
-bool is_legal(const SudokuBoard* board, const size_t row, const size_t column, size_t value) {
+bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, size_t value) {
 	size_t cell_row, cell_column;
 	size_t cell_value;
 	size_t start_block_row, start_block_column;

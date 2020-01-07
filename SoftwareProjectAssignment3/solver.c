@@ -30,7 +30,7 @@ static size_t get_all_legal(const SudokuBoard* board, size_t row, size_t column,
 	size_t values_count = 0;
 
 	while (value <= board->board_size) {
-		if (is_legal(board, row, column, value)) {
+		if (is_leagl(board, row, column, value)) {
 			legal_values[values_count] = value;
 			values_count++;
 		}
