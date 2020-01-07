@@ -88,3 +88,14 @@ void print_board(SudokuBoard* board) {
 		print_row_seperator();
 	}
 }
+
+int restart_game(SudokuBoard* board) {
+	int fixed_cells, ret;
+
+	ret = user_input_setup(&fixed_cells);
+	if (ret < 0) {
+		return ret;
+	}
+
+	return restart_board(board, 3, 3, fixed_cells);
+}

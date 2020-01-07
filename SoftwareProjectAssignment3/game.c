@@ -250,7 +250,7 @@ static void generate_board(SudokuBoard* board, size_t fixed) {
 	size_t hint;
 
 	clear_game_board(board);
-	solve_board(board, random_legal_cell_values); /* The board is empty and therefore solvable */
+	solve_board(board, deterministic_legal_cell_values); /* The board is empty and therefore solvable */
 	for (hint_index = 0; hint_index < fixed; hint_index++) {
 		do {
 			column = rand() % board->board_size;
@@ -271,5 +271,3 @@ bool validate_board(SudokuBoard* board) {
 
 void exit_game(void) {
 }
-
-void restart_game(SudokuBoard* board) { (void) board; }
