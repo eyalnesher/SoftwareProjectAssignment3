@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 static void generate_board(SudokuBoard* board, int fixed);
 

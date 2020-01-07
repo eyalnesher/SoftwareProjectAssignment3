@@ -39,7 +39,7 @@ int user_input_setup(int* fixed_cells) {
 	int ret;
 	char temp[MAX_ARG_CNT];
 
-	printf("Please enter the number of cells to fill[0 - %d]:\n", MAX_SIZE);
+	printf("Please enter the number of cells to fill [0-%d]:\n", MAX_SIZE);
 	while ((ret = scanf("%d", fixed_cells)) != 1 || *fixed_cells < 0 || *fixed_cells > MAX_SIZE) { /* Error - not in format */
 		if (ret <= 0) {
 			if (ret != EOF){
