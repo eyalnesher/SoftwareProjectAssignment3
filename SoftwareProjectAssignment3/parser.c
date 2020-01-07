@@ -38,7 +38,7 @@ static int get_argumets(char** function_name, size_t* function_args, size_t* fun
 	}
 	line[strcspn(line, "\n")] = 0;
 
-	arg_cnt = parse_delimeter(line, " \t\r\n", parsed_func, MAX_ARG_CNT + 1);
+	arg_cnt = parse_delimeter(line, " ", parsed_func, MAX_ARG_CNT + 1);
 	
 
 	if (arg_cnt == 0) {
@@ -71,7 +71,7 @@ int get_and_run(SudokuBoard* board) {
  * Test the equality of the function name and function argument count to the tested_name and tested_args_count
  */
 static int test_args(char* func_name, size_t args_count, char* tested_name, size_t tested_args_count) {
-	return func_name != NULL && tested_name != NULL && strcmp(func_name, tested_name) == 0 && args_count >= tested_args_count;
+	return func_name != NULL && tested_name != NULL && strcmp(func_name, tested_name) == 0 && args_count == tested_args_count;
 }
 
 
@@ -81,7 +81,6 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 
 	/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
 	if (test_args(func_name, args_count, "set", 3)) {
-		
 		set_cell_value(board, func_args[1] - 1, func_args[0] - 1, func_args[2]);
 		return 0;
 	}
@@ -95,10 +94,7 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 
 	/* Syntax: validate; meaning: checks to see whether the current board state is solveable */
 	if (test_args(func_name, args_count, "validate", 0)) {
-		if(validate_board(board)){
-			printf("Validation passed: board is solvable\n");
-		}
-		else {
+		if(!validate_board(board)){
 			printf("Validation failed: board is unsolvable\n");
 		}
 		return 0;

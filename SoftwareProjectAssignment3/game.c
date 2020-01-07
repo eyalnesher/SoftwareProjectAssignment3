@@ -4,7 +4,6 @@
 #include "solver.h"
 
 #include <stdlib.h>
-#include <string.h>
 
 static void generate_board(SudokuBoard* board, size_t fixed);
 
@@ -96,17 +95,11 @@ int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) 
 
 	get_cell(board, row, column, &cell);
 	
-	if (cell->is_fixed) {
-		return -1;
+	if (!cell->is_fixed) {
+		cell->value = value;
 	}
 
-	cell->value = value;
-
 	return 0;
-}
-
-int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) {
-
 }
 
 void clear_cell(SudokuBoard* board, size_t row, size_t column) {
@@ -174,21 +167,17 @@ bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, s
 
 	/* Search in row */
 	for (cell_column = 0; cell_column < board->board_size; cell_column++) {
-		if (cell_index(board, row, column) != cell_index(board, row, cell_column)) {
-			cell_value = get_cell_value(board, row, cell_column); /* Iterating over existing cells only */
-			if (cell_value == value) {
-				return False; /* An identical value have been found in the same row */
-			}
+		cell_value = get_cell_value(board, row, cell_column); /* Iterating over existing cells only */
+		if (cell_value == value) {
+			return False; /* An identical value have been found in the same row */
 		}
 	}
 
 	/* Search in column */
 	for (cell_row = 0; cell_row < board->board_size; cell_row++) {
-		if (cell_index(board, row, column) != cell_index(board, cell_row, column)) {
-			cell_value = get_cell_value(board, cell_row, column); /* Iterating over existing cells only */
-			if (cell_value == value) {
-				return False; /* An identical value have been found in the same column */
-			}
+		cell_value = get_cell_value(board, cell_row, column); /* Iterating over existing cells only */
+		if (cell_value == value) {
+			return False; /* An identical value have been found in the same column */
 		}
 	}
 
@@ -196,11 +185,9 @@ bool is_leagl(const SudokuBoard* board, const size_t row, const size_t column, s
 	find_block(board, row, column, &start_block_row, &start_block_column);
 	for (cell_row = start_block_row; cell_row < start_block_row + board->block_height; cell_row++) {
 		for (cell_column = start_block_column; cell_column < start_block_column + board->block_width; cell_column++) {
-			if (cell_index(board, row, column) != cell_index(board, cell_row, cell_column)) {
-				cell_value = get_cell_value(board, cell_row, cell_column); /* Iterating over existing cells only */
-				if (cell_value == value) {
-					return False; /* An identical value have been found in the same block */
-				}
+			cell_value = get_cell_value(board, cell_row, cell_column); /* Iterating over existing cells only */
+			if (cell_value == value) {
+				return False; /* An identical value have been found in the same block */
 			}
 		}
 	}
@@ -265,4 +252,4 @@ void do_turn(void) {
 void exit_game(void) {
 }
 
-void restart_game(SudokuBoard* board) { (void) board; }
+void restart_game(SudokuBoard* board) {}
