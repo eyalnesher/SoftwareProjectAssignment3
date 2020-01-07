@@ -269,12 +269,6 @@ bool validate_board(SudokuBoard* board) {
 	return solve_board(board, deterministic_legal_cell_values);
 }
 
-
-/* TODO */
-void do_turn(void) {
-
-}
-
 void exit_game(void) {
 }
 
