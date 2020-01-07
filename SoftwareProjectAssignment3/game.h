@@ -26,6 +26,7 @@ typedef struct {
 	size_t block_width; /* The width of a board's block (the block is `block_width` x `block_height`) */
 	size_t block_height; /* The height of a board's block (the block is `block_width` x `block_height`) */
 	SudokuCell* board; /* An array of the board's cells */
+	size_t filled_cells;
 } SudokuBoard;
 
 /**
@@ -44,6 +45,11 @@ void free_game_board(SudokuBoard* board);
  * Clear the given `SudokuBoard` object, by setting all the fields to their default values.
  */
 void clear_game_board(SudokuBoard* board);
+
+/**
+ * Return if all the cells are filled.
+ */
+bool is_solved(SudokuBoard* board);
 
 /**
  * Return the cell value at the given position in the board.

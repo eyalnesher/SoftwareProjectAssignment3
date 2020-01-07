@@ -43,6 +43,10 @@ int restart_board(SudokuBoard* board, const size_t block_width, const size_t blo
 	return 0;
 }
 
+bool is_solved(SudokuBoard* board) {
+	return board->filled_cells == board->board_size * board->board_size;
+}
+
 /**
  * Return if the place [row, column] exists in the board.
  */
@@ -90,14 +94,16 @@ int is_cell_fixed(const SudokuBoard* board, size_t row, size_t column){
 int set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t value) {
 	SudokuCell* cell;
 
-	if (value < 1 || (size_t) value > board->board_size) {
-		return -1; /* Invalid value */
-	}
-
 	get_cell(board, row, column, &cell);
 	
 	if (cell->is_fixed) {
 		return -1;
+	}
+
+	if (value == 0 && cell->value > 0) {
+		board->filled_cells--;
+	} else if (value > 0 && cell->value == 0) {
+		board->filled_cells++;
 	}
 
 	cell->value = value;
@@ -110,13 +116,7 @@ int legal_set_cell_value(SudokuBoard* board, size_t row, size_t column, size_t v
 }
 
 void clear_cell(SudokuBoard* board, size_t row, size_t column) {
-	SudokuCell* cell;
-
-	get_cell(board, row, column, &cell);
-
-	if (!cell->is_fixed) {
-		cell->value = 0;
-	}
+	set_cell_value(board, row, column, 0);
 }
 
 /**
