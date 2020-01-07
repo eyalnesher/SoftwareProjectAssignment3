@@ -1,5 +1,8 @@
 
 #include "main_aux.h"
+
+#include "parser.h"
+
 #include <stdio.h>
 
 #define MAX_SIZE (80)
@@ -34,6 +37,7 @@ static void cell_string_repr(SudokuBoard* board, size_t row, size_t column, char
 
 int user_input_setup(int* fixed_cells) {
 	int ret;
+	char temp[MAX_ARG_CNT];
 
 	printf("Please enter the number of cells to fill[0 - %d]:\n", MAX_SIZE);
 	while ((ret = scanf("%d", fixed_cells)) != 1 || *fixed_cells < 0 || *fixed_cells > MAX_SIZE) { /* Error - not in format */
@@ -46,6 +50,8 @@ int user_input_setup(int* fixed_cells) {
 		}
 		printf("Error: invalid number of cells to fill(should be between 0 and %d)\n", MAX_SIZE);
 	}
+
+	fgets(temp, MAX_CHAR_CNT, stdin);
 
 	return 0;
 }

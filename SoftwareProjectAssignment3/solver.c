@@ -1,8 +1,6 @@
 
 #include "solver.h"
 
-#include "game.h"
-
 #include <stdlib.h>
 #include <string.h>
 
