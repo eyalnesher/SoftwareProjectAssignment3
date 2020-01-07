@@ -26,14 +26,15 @@ static size_t get_next_legal(size_t* legal_values, size_t legal_values_count,
  * Return the number of legal values.
  */
 static size_t get_all_legal(const SudokuBoard* board, size_t row, size_t column, size_t* legal_values) {
-	size_t value;
+	size_t value = 1;
 	size_t values_count = 0;
 
-	for (value = 1; value <= board->board_size; value++) {
+	while (value <= board->board_size) {
 		if (is_legal(board, row, column, value)) {
 			legal_values[values_count] = value;
 			values_count++;
 		}
+		value++;
 	}
 
 	return values_count;

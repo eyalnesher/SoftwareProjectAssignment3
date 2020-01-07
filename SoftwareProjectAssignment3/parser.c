@@ -57,14 +57,14 @@ static int get_argumets(char** function_name, size_t* function_args, size_t* fun
 /**
  * Gets a Sudoku board, receives input from stdin and runs the command it was given
  */
-int get_and_run(SudokuBoard* board, bool* continue_executing) {
+int get_and_run(SudokuBoard* board) {
 	char* func_name;
 	size_t func_args[MAX_ARG_CNT];
 	size_t arg_count;
 	
 	get_argumets(&func_name, func_args, &arg_count);
 
-	return run_command(board, func_name, func_args, arg_count, continue_executing);
+	return run_command(board, func_name, func_args, arg_count);
 }
 
 /**
@@ -76,12 +76,10 @@ static int test_args(char* func_name, size_t args_count, char* tested_name, size
 
 
 /* TODO - RETURN VALUE */
-int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count, bool* continue_executing) {
+int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t args_count) {
 	size_t hint;
 	size_t row, column;
 	int ret;
-
-	*continue_executing = True;
 
 	if (!is_solved(board)) {
 		/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
@@ -122,9 +120,8 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 
 	/* Syntax: exit; meaning: exit the game, freeing all memory resources */
 	if (test_args(func_name, args_count, "exit", 0)) {
-		free_game_board(board);
-		*continue_executing = False;
-		return -1;
+		exit_game();
+		return 0;
 	}
 
 	printf("Error: invalid command\n");

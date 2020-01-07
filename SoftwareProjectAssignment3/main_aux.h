@@ -12,11 +12,6 @@
 int user_input_setup(int* fixed_cells);
 
 /**
- * Restart the game - asks the user for new number of fixed cell and generate a new board.
- */
-int restart_game(SudokuBoard* board);
-
-/**
  * Print the board to stdin.
  */
 void print_board(SudokuBoard* board);
