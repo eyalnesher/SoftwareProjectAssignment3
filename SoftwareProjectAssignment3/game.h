@@ -104,14 +104,9 @@ bool validate_board(SudokuBoard* board);
  */
 int restart_board(SudokuBoard* board, const size_t block_width, const size_t block_height, size_t hints);
 
-/**
- * Restart the game - asks the user for new number of fixed cell and generate a new board.
- */
-void restart_game(SudokuBoard* board);
+void do_turn(void);
 
-/**
- * Exit the game.
- */
+void restart_game(SudokuBoard* board);
 void exit_game(void);
 
 #endif /* !GAME_H */

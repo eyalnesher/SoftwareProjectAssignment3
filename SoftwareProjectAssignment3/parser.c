@@ -81,6 +81,11 @@ int run_command(SudokuBoard* board, char* func_name, size_t* func_args, size_t a
 	size_t row, column;
 	int ret;
 
+	if (test_args(func_name, args_count, "k", 0)) {
+		printf("%d\n", board->filled_cells);
+		return 0;
+	}
+
 	if (!is_solved(board)) {
 		/* Syntax: set X Y Z; meaning: set column X row Y cell value to Z */
 		if (test_args(func_name, args_count, "set", 3)) {
